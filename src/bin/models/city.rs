@@ -6,4 +6,5 @@ pub struct City {
     pub id: Uuid,
     pub modern_name: String,
     pub name: String,
+    pub important_places: Vec<String>,
 }

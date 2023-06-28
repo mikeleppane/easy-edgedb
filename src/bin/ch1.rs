@@ -8,6 +8,17 @@ use edgedb_tokio::create_client;
 #[tokio::main]
 async fn main() -> Result<()> {
     let client = create_client().await?;
+
+    print!("Deleting objects...");
+    let query = r#"
+        delete NPC;
+    "#;
+    client.execute(query, &()).await?;
+    let query = r#"
+        delete City;
+    "#;
+    client.execute(query, &()).await?;
+
     let query = r#"
         select City {
           id,
