@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  edgedb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      EDGEDB_SERVER_SECURITY: insecure_dev_mode
+    volumes:
+      - "./dbschema:/dbschema"
+      - "edgedb-data:/var/lib/edgedb/data"
+    ports:
+      - "5656:5656"
+      - "10700:10700"
+    expose:
+      - 5656
+      - 10700
+    healthcheck:
+      test: curl --fail edgedb:5656/server/status/alive || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    restart: unless-stopped
+
+volumes:
+  edgedb-data:
